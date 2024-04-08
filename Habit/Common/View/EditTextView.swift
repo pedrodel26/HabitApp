@@ -8,11 +8,31 @@
 import SwiftUI
 
 struct EditTextView: View {
+    
+    @Binding var text: String
+    var placeholder: String = ""
+    var keyboard: UIKeyboardType = .default
+    var error: String? = nil
+    var failure: Bool? = nil
+    var isSecure: Bool = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+        TextField(placeholder, text: $text)
+            .foregroundColor(Color("textColor"))
+            .keyboardType(keyboard)
+            .textFieldStyle(CustomTextFieldStyle())
+        
+        
+        if let error = error, failure == true, !text.isEmpty {
+            Text(error).foregroundColor(.red)
+        }
     }
 }
 
 #Preview {
-    EditTextView()
+    EditTextView(text: .constant("pedromodesto26@gmail.com"),
+                 placeholder: "E-mail",
+                 error: "Campo Inválido",
+                 failure: "a@a.com".count < 3)
 }
